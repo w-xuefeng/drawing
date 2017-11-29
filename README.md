@@ -1,2 +1,2 @@
 # drawing
-j简易的Vue.js+Canvas画板
+简易的Vue.js+Canvas画板
