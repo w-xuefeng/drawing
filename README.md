@@ -1,5 +1,6 @@
 # draw
 
 > Vue.js + Canvas 简易画图小工具
-> W-xuefeng 计算机图形学 实验8
+>
+> 计算机图形学 实验8
 
