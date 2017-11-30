@@ -5,7 +5,7 @@
         Drawing
       </div>
       <div class="nav" style="position:fixed;top: 10px;">        
-        <mu-flat-button v-for="tab, index in tabs" :key="index" :label="tab.name" class="tab demo-flat-button" :icon="tab.icon" @click="tabfun(tab.fun)"  primary backgroundColor="#FFFFFF"/>
+        <mu-flat-button v-for="tab in tabs" :key="tab.name" :label="tab.name" class="tab demo-flat-button" :icon="tab.icon" @click="tabfun(tab.fun)"  primary backgroundColor="#FFFFFF"/>
         <mu-flat-button label="选择颜色" class="tab demo-flat-button" icon="color_lens" @click="setColor()"  primary backgroundColor="#FFFFFF" :color="color.hex"/>
         <a href="javascript:void(0);" ref="download" download="picture.png" v-show="false"></a>        
       </div>
@@ -24,7 +24,7 @@
           </div>
 
         <mu-paper class="demo-menu">
-          <mu-menu v-for="tool, index in tools" :key="index">
+          <mu-menu v-for="tool in tools" :key="tool.name">
             <mu-menu-item :title="tool.name" :leftIcon="tool.icon" @click="drawType(tool)" :class="{'selected':tool.ischoose}"/>
           </mu-menu>
         </mu-paper>        
@@ -161,7 +161,24 @@ export default {
     falseColor() {
       this.ischoosecolor = false 
     },
-    drawType (pen) {  
+    drawType (pen) {
+      switch (pen.fun) {
+        case 'pencil':
+            this.curcursor = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAZ0lEQVR4AdXOrQ2AMBRF4bMc/zOUOSrYoYI5cQQwpAieQDW3qQBO7Xebxx8bWAk5/CASmRHzRHtB+d0Bkw0W5ZiT0SYbFcl6u/2eeJHbxIHOhWO6Er6/y9syXpMul5PLefAGKZ1/rwtTimwbWLpiCgAAAABJRU5ErkJggg==') 3 24,  auto"
+            break
+        case 'rubber':
+        this.curcursor = 'pointer'
+        break
+        case 'circle':
+        case 'square':
+        case 'line':
+        case 'handwriting':
+        this.curcursor = 'crosshair'
+        break          
+        default:
+        this.curcursor = 'auto'
+          break;
+      }  
       this.draw_graph(pen.fun)
       this.chooseImg(pen)
     },
@@ -278,7 +295,7 @@ export default {
         //方块  4条直线搞定
         if(graphType == 'square'){
 
-          if(this.canDraw){
+          if(this.canDraw){            
 
             this.context_bak.beginPath()
 
@@ -300,9 +317,7 @@ export default {
         //直线
         }else if(graphType =='line'){
 
-          if(this.canDraw){
-
-            this.curcursor = 'crosshair'
+          if(this.canDraw){            
 
             this.context_bak.beginPath()
 
@@ -326,7 +341,7 @@ export default {
 
           this.clearContext()
 
-          if(this.canDraw){
+          if(this.canDraw){            
 
             this.context_bak.beginPath()
 
@@ -345,7 +360,7 @@ export default {
         //涂鸦 未画得时候 出现一个小圆
         }else if(graphType == 'handwriting'){
 
-          if(this.canDraw){
+          if(this.canDraw){            
 
             this.context_bak.beginPath()
 
@@ -376,8 +391,8 @@ export default {
             this.context_bak.stroke()
           }
         //橡皮擦 不管有没有在画都出现小方块 按下鼠标 开始清空区域
-        }else if(graphType == 'rubber'){ 
-
+        }else if(graphType == 'rubber'){
+          
           this.context_bak.lineWidth = 1
 
           this.clearContext()
@@ -398,7 +413,7 @@ export default {
 
           this.context_bak.stroke()
 
-          if(this.canDraw){
+          if(this.canDraw){            
 
             this.context.clearRect(x - this.penSize * 10 ,  y - this.penSize * 10 , this.penSize * 20 , this.penSize * 20)
 
@@ -554,10 +569,8 @@ export default {
   mounted () {
     this.initCanvas()
     this.initDrag()
-    this.draw_graph ('pencil')
+    this.drawType(this.tools[0])
     this.canvas_bak.addEventListener('click',this.falseColor)
-    console.log(getOffset(this.canvas).top)
-    console.log(getOffset(this.canvas).left)
   }
 }
 </script>
@@ -618,7 +631,6 @@ canvas{
   width: 85%;  
   height:100%;
   display: inline-block;
-  float: right;
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0)
 }
