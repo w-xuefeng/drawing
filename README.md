@@ -1,4 +1,4 @@
-# draw
+# drawing
 
 > Vue.js + Canvas 简易画图小工具
 >
