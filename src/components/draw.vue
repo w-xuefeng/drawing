@@ -497,7 +497,7 @@ export default {
     //保存历史 用于撤销
     saveImageToAry () {
       this.cancelIndex = 0
-      var dataUrl =  this.canvas.toDataURL()
+      let dataUrl =  this.canvas.toDataURL()
       this.cancelList.push(dataUrl)   
     },
 
@@ -533,9 +533,9 @@ export default {
 
         let t = f.type ? f.type : 'n/a'
 
-        reader = new FileReader()
+        let reader = new FileReader()
 
-        isImg = isImage(t)
+        let isImg = this.isImage(t)
         // 处理得到的图片  
         if (isImg) {  
 
@@ -565,9 +565,22 @@ export default {
     },
      //初始化拖入效果
     initDrag () {
-      var dragDiv  = document.getElementById("canvas_bak");
-      dragDiv.addEventListener('dragover', this.handleDragOver, false);  
-      dragDiv.addEventListener('drop', this.handleFileSelect, false);  
+      let dragDiv  = document.getElementById("canvas_bak")
+      dragDiv.addEventListener('dragover', this.handleDragOver, false) 
+      dragDiv.addEventListener('drop', this.handleFileSelect, false)
+    },
+    addkeyBoardlistener() {
+      document.onkeydown = (event) => {   
+        let e = event || window.event || arguments.callee.caller.arguments[0];   
+          if (e.keyCode === 89 && e.ctrlKey) {    
+            //ctrl+Y
+            this.next()
+          }
+          if (e.keyCode === 90 && e.ctrlKey) {    
+           // ctrl+Z
+           this.cancel()
+          } 
+      }
     }
 
   },
@@ -577,6 +590,7 @@ export default {
   mounted () {
     this.initCanvas()
     this.initDrag()
+    this.addkeyBoardlistener()
     this.drawType(this.tools[0])
     this.canvas_bak.addEventListener('click',this.falseColor)
   }
