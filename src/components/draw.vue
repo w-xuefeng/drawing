@@ -6,7 +6,7 @@
       </div>
       <div class="nav" style="position:fixed;top: 10px;">        
         <mu-flat-button v-for="tab in tabs" :key="tab.name" :label="tab.name" class="tab demo-flat-button" :icon="tab.icon" @click="tabfun(tab.fun)"  primary backgroundColor="#FFFFFF"/>
-        <mu-flat-button label="选择颜色" class="tab demo-flat-button" icon="color_lens" @click="setColor()"  primary backgroundColor="#FFFFFF" :color="color.hex"/>
+        <mu-flat-button :label="chooseColorBtn" class="tab demo-flat-button" icon="color_lens" @click="setColor()"  primary backgroundColor="#FFFFFF" :color="color.hex"/>
         <a href="javascript:void(0);" ref="download" download="picture.png" v-show="false"></a>        
       </div>
       <PhotoshopPicker v-model="color" v-if="ischoosecolor" style="position:absolute;z-index:10;"/>
@@ -15,12 +15,12 @@
     <div class="content">
       <div class="content-left">
           <div class="setterSize">
-            <span>画布宽:{{canvasSize.width}}px</span>
-            <mu-slider v-model="canvasSize.width"  :step="1" :max="scrW*0.8"/>
-            <span>画布高:{{canvasSize.height}}px</span>
-            <mu-slider v-model="canvasSize.height" :step="1" :max="scrH*0.75"/>
             <span>线条粗细:{{penSize}}</span>
-            <mu-slider v-model="penSize" :step="1" :max="30"/> 
+            <mu-slider v-model="penSize" :step="1" :max="30"/>
+            <span>虚线长度:{{lineType[0]}}</span>
+            <mu-slider v-model="lineType[0]" :step="1" :max="100"/>
+            <span>虚线间距:{{lineType[1]}}</span>
+            <mu-slider v-model="lineType[1]" :step="1" :max="100"/> 
           </div>
 
         <mu-paper class="demo-menu">
@@ -71,6 +71,7 @@ export default {
       canvas_bak: this.$refs.canvas_bak,
       context_bak: null,
       ischoosecolor: false,
+      chooseColorBtn: '选择颜色',
       color: {
         hex: '#000000',
         hsl: {
@@ -93,7 +94,8 @@ export default {
         },
         a: 1
       },      
-      penSize: 1,
+      penSize: 1,      
+      lineType: [0,0],
       canDraw: false,
       curcursor: 'auto',
       cancelList: [],
@@ -156,10 +158,11 @@ export default {
       this.context_bak = this.canvas_bak.getContext('2d')
     },
     setColor () {
+      this.chooseColorBtn = this.ischoosecolor ? '选择颜色':'确认选择'
       this.ischoosecolor = this.ischoosecolor ? false : true
     },
     falseColor() {
-      this.ischoosecolor = false 
+      this.ischoosecolor = false
     },
     drawType (pen) {
       switch (pen.fun) {
@@ -241,7 +244,8 @@ export default {
         }else if(graphType == 'rubber'){
 
           this.context.clearRect(startX - this.penSize * 10 ,  startY - this.penSize * 10 , this.penSize * 20 , this.penSize * 20);        
-        } 
+        }
+
       }
 
       //鼠标离开 把蒙版canvas的图片生成到canvas中
@@ -292,10 +296,12 @@ export default {
 
         let y = e.clientY  - this.canvasTop
 
+        this.context_bak.setLineDash(this.lineType)
+
         //方块  4条直线搞定
         if(graphType == 'square'){
 
-          if(this.canDraw){            
+          if(this.canDraw){                        
 
             this.context_bak.beginPath()
 
@@ -330,7 +336,7 @@ export default {
         //画笔
         }else if(graphType == 'pencil'){
 
-          if(this.canDraw){
+          if(this.canDraw){           
 
             this.context_bak.lineTo(e.clientX   - this.canvasLeft ,e.clientY  - this.canvasTop)
 
@@ -341,8 +347,8 @@ export default {
 
           this.clearContext()
 
-          if(this.canDraw){            
-
+          if(this.canDraw){ 
+           
             this.context_bak.beginPath()
 
             let radii = Math.sqrt((startX - x) *  (startX - x)  + (startY - y) * (startY - y))
@@ -372,9 +378,7 @@ export default {
 
             this.context_bak.fill()
 
-            this.context_bak.stroke()
-
-            this.ontext_bak.restore()
+            this.context_bak.stroke()            
 
           }else{
 
@@ -392,6 +396,8 @@ export default {
           }
         //橡皮擦 不管有没有在画都出现小方块 按下鼠标 开始清空区域
         }else if(graphType == 'rubber'){
+
+          this.context_bak.setLineDash([0,0])
           
           this.context_bak.lineWidth = 1
 
@@ -418,6 +424,8 @@ export default {
             this.context.clearRect(x - this.penSize * 10 ,  y - this.penSize * 10 , this.penSize * 20 , this.penSize * 20)
 
           }
+
+          this.context_bak.setLineDash(this.lineType)
 
         }
 
