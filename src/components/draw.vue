@@ -1,28 +1,28 @@
 <template>
   <div class="layout">
-    <div class="header">
+    <div class="header">      
       <div class="logo">
-        Drawing
-      </div>
-      <div class="nav" style="position:fixed;top: 10px;">        
+        <mu-icon-button class="tab demo-flat-button" icon="list" @click="toolsToggle = !toolsToggle"/>
+        <span>Drawing</span>
+        </div>
+      <div class="nav">
         <mu-flat-button v-for="tab in tabs" :key="tab.name" :label="tab.name" class="tab demo-flat-button" :icon="tab.icon" @click="tabfun(tab.fun)"  primary backgroundColor="#FFFFFF"/>
         <mu-flat-button :label="chooseColorBtn" class="tab demo-flat-button" icon="color_lens" @click="setColor()"  primary backgroundColor="#FFFFFF" :color="color.hex"/>
         <a href="javascript:void(0);" ref="download" download="picture.png" v-show="false"></a>        
       </div>
-      <PhotoshopPicker v-model="color" v-if="ischoosecolor" style="position:absolute;z-index:10;" @ok="setColor()" @cancel="falseColor()"/>
+      <PhotoshopPicker v-model="color" v-if="ischoosecolor" style="position:absolute;z-index:10;top:56px;" @ok="setColor()" @cancel="falseColor()"/>
     </div>
 
     <div class="content">
-      <div class="content-left">
-          <div class="setterSize">
-            <span>线条粗细:{{penSize}}</span>
-            <mu-slider v-model="penSize" :step="1" :max="30"/>
-            <span>虚线长度:{{lineType[0]}}</span>
-            <mu-slider v-model="lineType[0]" :step="1" :max="100"/>
-            <span>虚线间距:{{lineType[1]}}</span>
-            <mu-slider v-model="lineType[1]" :step="1" :max="100"/> 
-          </div>
-
+      <div class="content-left" :class="{'hideTools': toolsToggle}">        
+        <div class="setterSize">
+          <span>线条粗细:{{penSize}}</span>
+          <mu-slider v-model="penSize" :step="1" :max="30"/>
+          <span>虚线长度:{{lineType[0]}}</span>
+          <mu-slider v-model="lineType[0]" :step="1" :max="100"/>
+          <span>虚线间距:{{lineType[1]}}</span>
+          <mu-slider v-model="lineType[1]" :step="1" :max="100"/> 
+        </div>
         <mu-paper class="demo-menu">
           <mu-menu v-for="tool in tools" :key="tool.name">
             <mu-menu-item :title="tool.name" :leftIcon="tool.icon" @click="drawType(tool)" :class="{'selected':tool.ischoose}"/>
@@ -72,6 +72,7 @@ export default {
       canvas_bak: this.$refs.canvas_bak,
       context_bak: null,
       ischoosecolor: false,
+      toolsToggle: false,
       chooseColorBtn: '选择颜色',
       color: {
         hex: '#2196f3',
@@ -474,17 +475,21 @@ canvas{
 
 .header{
   background-color: #2196f3;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .logo{
+  display: flex;
+  align-items: center;
   font-size: 24px;
   color: white;
-  display: inline-block;
   padding: 10px 20px;
 }
 
 .nav{
-  display: inline-block;
+  display: flex;
   width: calc(100% - 150px);
   margin: 0 auto;
 }
@@ -492,22 +497,27 @@ canvas{
 .content{
   overflow: hidden;
   height:calc(100% - 56px);
+  display: flex;
 }
 
 .content-left{
   min-width: 2rem;
   width: 15%;
-  float: left;
   height: auto;
   background-color: white;
   margin-bottom: -4000px;
   padding-bottom: 4000px;
+  transition: all 300ms;
+}
+
+.hideTools {
+  transform: translateX(-100%);
+  width: 0;
 }
 
 .content-right{
   width: 85%;  
   height:100%;
-  display: inline-block;
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0)
 }
