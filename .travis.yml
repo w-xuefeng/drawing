@@ -10,8 +10,7 @@ cache:
     - node_modules
 
 # S: Build Lifecycle
-install: 
-  - npm install @vue/cli
+install:
   - npm install
 
 before_script:

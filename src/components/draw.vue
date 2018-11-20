@@ -97,7 +97,7 @@ export default {
         a: 1
       },      
       penSize: 1,      
-      lineType: [0,0],
+      lineType: [0, 0],
       canDraw: false,
       curcursor: 'auto',
       cancelList: [],
@@ -453,13 +453,13 @@ export default {
 }
 </script>
 <style scoped>
-*{
+* {
   -webkit-user-select: none;
   -moz-user-select: none; 
   -ms-user-select: none; 
   user-select: none;
 }
-canvas{
+canvas {
   position: absolute;
   z-index : 0;
   left: 0;
@@ -468,19 +468,19 @@ canvas{
   height:100%;  
 }
 
-.layout{
+.layout {
   background-color: rgb(236, 236, 236);
   height: 100%;
 }
 
-.header{
+.header {
   background-color: #2196f3;
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.logo{
+.logo {
   display: flex;
   align-items: center;
   font-size: 24px;
@@ -488,19 +488,19 @@ canvas{
   padding: 10px 20px;
 }
 
-.nav{
+.nav {
   display: flex;
   width: calc(100% - 150px);
   margin: 0 auto;
 }
 
-.content{
+.content {
   overflow: hidden;
   height:calc(100% - 56px);
   display: flex;
 }
 
-.content-left{
+.content-left {
   min-width: 2rem;
   width: 15%;
   height: auto;
@@ -515,18 +515,18 @@ canvas{
   width: 0;
 }
 
-.content-right{
+.content-right {
   width: 85%;  
   height:100%;
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0)
 }
 
-.breadcrumb{
+.breadcrumb {
   margin: 10px 0;
 }
 
-.body{
+.body {
   position: relative;
   background-color: white;
   border-radius: 5px;
@@ -535,7 +535,7 @@ canvas{
 }
 
 
-.setterSize{
+.setterSize {
   padding: 5%;
   font-size: 0.5rem;
 }
@@ -551,11 +551,11 @@ canvas{
   width: 100%;
 }
 
-.selected{
+.selected {
   background: rgba(0,0,0,0.35)!important;
 }
 
-.tab{
+.tab {
   margin-right: 5px
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <Draw/>
+    <Draw></Draw>
   </div>
 </template>
 
 <script>
-import Draw from './components/Draw.vue'
+import Draw from './components/draw'
 
 export default {
   name: 'app',
