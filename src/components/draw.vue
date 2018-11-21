@@ -2,7 +2,6 @@
   <div class="layout">
     <div class="header">      
       <div class="logo">
-        <mu-icon-button class="tab demo-flat-button" icon="list" @click="toolsToggle = !toolsToggle"/>
         <span>Drawing</span>
         </div>
       <div class="nav">
@@ -14,7 +13,7 @@
     </div>
 
     <div class="content">
-      <div class="content-left" :class="{'hideTools': toolsToggle}">        
+      <div class="content-left">
         <div class="setterSize">
           <span>线条粗细:{{penSize}}</span>
           <mu-slider v-model="penSize" :step="1" :max="30"/>
@@ -23,7 +22,7 @@
           <span>虚线间距:{{lineType[1]}}</span>
           <mu-slider v-model="lineType[1]" :step="1" :max="100"/> 
         </div>
-        <mu-paper class="demo-menu">
+        <mu-paper>
           <mu-menu v-for="tool in tools" :key="tool.name">
             <mu-menu-item :title="tool.name" :leftIcon="tool.icon" @click="drawType(tool)" :class="{'selected':tool.ischoose}"/>
           </mu-menu>
@@ -41,33 +40,18 @@
 
 <script>
 import { Photoshop } from 'vue-color'
-function getOffset(Node, offset) {
-  if (!offset) {
-    offset = {};
-    offset.top = 0;
-    offset.left = 0;
-  }
-  if (Node == document.body) {          
-    return offset;
-  }
-  offset.top += Node.offsetTop;
-  offset.left += Node.offsetLeft;
-  return getOffset(Node.parentNode, offset);
-}
 
 export default {
   name: 'draw',
   data () {
     return {
-      scrW: window.screen.availWidth,
-      scrH: window.screen.availHeight,
       canvasSize: {
-        width: window.screen.availWidth * 0.8,
+        width: window.screen.availWidth - 320,
         height: window.screen.availHeight * 0.75
       },
       canvas: this.$refs.canvas,
-      canvasTop: null,
-      canvasLeft: null,
+      canvasTop: 67,
+      canvasLeft: 300,
       context: null,
       canvas_bak: this.$refs.canvas_bak,
       context_bak: null,
@@ -150,8 +134,6 @@ export default {
       this.canvas.width = this.canvasSize.width
       this.canvas.height = this.canvasSize.height
       this.context = this.canvas.getContext('2d')
-      this.canvasTop = getOffset(this.canvas).top - 108
-      this.canvasLeft = getOffset(this.canvas).left - (135/915)*this.scrW
       this.canvas_bak =  document.getElementById("canvas_bak")
       this.canvas_bak.width = this.canvasSize.width
       this.canvas_bak.height = this.canvasSize.height
@@ -449,6 +431,12 @@ export default {
     this.addkeyBoardlistener()
     this.drawType(this.tools[0])
     this.canvas_bak.addEventListener('click', this.falseColor)
+    window.addEventListener('resize', () => {
+      this.canvasSize = {
+        width: window.screen.availWidth - 320,
+        height: window.screen.availHeight * 0.75
+      }
+    })
   }
 }
 </script>
@@ -496,34 +484,21 @@ canvas {
 
 .content {
   overflow: hidden;
-  height:calc(100% - 56px);
+  width: 100%;
+  height: calc(100vh - 56px);
   display: flex;
 }
 
 .content-left {
-  min-width: 2rem;
-  width: 15%;
-  height: auto;
+  width: 280px;
   background-color: white;
-  margin-bottom: -4000px;
-  padding-bottom: 4000px;
-  transition: all 300ms;
-}
-
-.hideTools {
-  transform: translateX(-100%);
-  width: 0;
 }
 
 .content-right {
-  width: 85%;  
-  height:100%;
+  width: calc(100% - 280px);
+  height: 100%;
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0)
-}
-
-.breadcrumb {
-  margin: 10px 0;
 }
 
 .body {
@@ -538,17 +513,6 @@ canvas {
 .setterSize {
   padding: 5%;
   font-size: 0.5rem;
-}
-
-.demo-menu {
-  display: inline-block;
-  margin: 0px auto;
-  width: 100%;
-}
-
-.mu-paper,.mu-menu,.mu-menu-item-wrapper {
-  overflow: hidden;
-  width: 100%;
 }
 
 .selected {
