@@ -11,7 +11,6 @@
       </div>
       <PhotoshopPicker v-model="color" v-if="ischoosecolor" style="position:absolute;z-index:10;top:56px;" @ok="setColor()" @cancel="falseColor()"/>
     </div>
-
     <div class="content">
       <div class="content-left">
         <div class="setterSize">
@@ -447,6 +446,7 @@ export default {
   -ms-user-select: none; 
   user-select: none;
 }
+
 canvas {
   position: absolute;
   z-index : 0;
@@ -508,7 +508,6 @@ canvas {
   height:100%;
   margin: 0 auto;
 }
-
 
 .setterSize {
   padding: 5%;
