@@ -17,6 +17,7 @@ import { onMounted, ref, reactive, defineComponent, CSSProperties } from 'vue'
 import Pencil from '../core/tools/Pencil'
 import HistoryRecord from '../core/base/HistoryRecord'
 import ToolsBar from './ToolsBar.vue'
+import { debounce } from '../utils'
 import type { IDrawCanvas } from '../typing'
 
 export default defineComponent({
@@ -30,7 +31,7 @@ export default defineComponent({
       canvas: null,
       canvasBackup: null,
       historyRecord: new HistoryRecord(),
-      style: { cursor: 'auto' }
+      style: { cursor: 'auto' },
     })
 
     const setSzie = <T extends { width: number; height: number }>(
@@ -43,18 +44,35 @@ export default defineComponent({
       return wrapper
     }
 
+    const handleResize = () =>
+      new Promise<boolean>((resolve, reject) => {
+        if (state.canvas && state.canvasBackup) {
+          const size = {
+            width: document.documentElement.clientWidth * 0.9,
+            height: document.documentElement.clientHeight - 90,
+          }
+          state.canvas = setSzie(state.canvas, size)
+          state.canvasBackup = setSzie(state.canvasBackup, size)
+          const lastRecord = state.historyRecord.list.get(
+            state.historyRecord.list.size
+          )
+          lastRecord && lastRecord.tools.recoverLastHistory()
+          resolve(true)
+        } else {
+          reject('canvas is not ready')
+        }
+      })
+
+    const canvasReady = () =>
+      handleResize()
+        .then((isReady) => (ready.value = isReady))
+        .catch(console.log)
+
     const init = () => {
       state.canvas = document.querySelector(`canvas[canvas]`)
       state.canvasBackup = document.querySelector(`canvas[canvasBackup]`)
-      if (state.canvas && state.canvasBackup) {
-        const size = {
-          width: document.documentElement.clientWidth * 0.9,
-          height: document.documentElement.clientHeight - 90,
-        }
-        state.canvas = setSzie(state.canvas, size)
-        state.canvasBackup = setSzie(state.canvasBackup, size)
-        ready.value = true
-      }
+      canvasReady()
+      window.addEventListener('resize', debounce(handleResize, 800))
     }
 
     const onStyleChange = (newStyle: CSSProperties) => {

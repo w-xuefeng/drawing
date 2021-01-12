@@ -1,14 +1,11 @@
 <template>
   <div class="tools-bar">
-    <div
+    <Tools
       v-for="tool in state.tools"
-      class="tools-bar-tool"
-      :class="{ 'tools-bar-tool-active': tool.active }"
       :key="tool.name"
+      :tools="tool"
       @click="onEnable(tool)"
-    >
-      {{ tool.name }}
-    </div>
+    />
   </div>
 </template>
 
@@ -19,6 +16,7 @@ import Pencil from '../core/tools/Pencil'
 import HistoryRecord from '../core/base/HistoryRecord'
 import Rubber from '../core/tools/Rubber'
 import BaseDrawTools from '../core/base/BaseDrawTools'
+import Tools from './Tools.vue'
 import type { IDarwToolsBarState } from '../typing'
 
 export default defineComponent({
@@ -37,6 +35,7 @@ export default defineComponent({
       required: true,
     },
   },
+  components: { Tools },
   setup(props, vueCTX) {
     const state = reactive<IDarwToolsBarState>({
       currentTools: null,
@@ -45,6 +44,7 @@ export default defineComponent({
 
     const bindKeyToTools = (tool: BaseDrawTools) => {
       tool.key && bindkey.add(tool.key, () => onEnable(tool))
+      return tool
     }
 
     const onEnable = (currentTool: BaseDrawTools) => {
@@ -62,24 +62,31 @@ export default defineComponent({
       const pencil = new Pencil(
         props.canvas,
         props.canvasBackup,
-        props.historyRecord
+        props.historyRecord,
+        'B'
       )
 
       const rubber = new Rubber(
         props.canvas,
         props.canvasBackup,
-        props.historyRecord
+        props.historyRecord,
+        'E'
       )
 
       const tools = [pencil, rubber]
 
-      tools.forEach(bindKeyToTools)
+      return tools.map(bindKeyToTools)
+    }
 
-      return tools
+    const initFunctionShortKey = () => {
+      bindkey.add('Ctrl+L', () => state.currentTools?.clearContext(true))
+      bindkey.add('Ctrl+Z', () => state.currentTools?.undo())
+      bindkey.add('Ctrl+Y', () => state.currentTools?.redo())
     }
 
     const init = () => {
       state.tools = initTools()
+      initFunctionShortKey()
       onEnable(state.tools[0])
     }
 

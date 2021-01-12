@@ -70,6 +70,7 @@ export default abstract class BaseDrawTools {
   }
 
   enable() {
+    this.clearContext()
     this.canvasBackup.style.zIndex = '1'
     this.canDraw = false
     this.active = true
@@ -134,6 +135,63 @@ export default abstract class BaseDrawTools {
 
   disable() {
     this.active = false
+  }
+
+  drawImage(
+    imageSrc: string,
+    options: {
+      sx: number
+      sy: number
+      dx: number
+      dy: number
+    }
+  ) {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      this.ctx.drawImage(
+        img,
+        options.sx,
+        options.sy,
+        img.width,
+        img.height,
+        options.dx,
+        options.dy,
+        this.canvas.width,
+        this.canvas.height
+      )
+    }
+    img.src = imageSrc
+  }
+
+  undo(index?: number) {
+    const paint = this.historyRecord.undo(index)?.data
+    if (paint) {
+      this.clearContext(true)
+      this.drawImage(paint, {
+        sx: 0,
+        sy: 0,
+        dx: 0,
+        dy: 0,
+      })
+    }
+  }
+
+  redo() {
+    const paint = this.historyRecord.redo()?.data
+    if (paint) {
+      this.clearContext(true)
+      this.drawImage(paint, {
+        sx: 0,
+        sy: 0,
+        dx: 0,
+        dy: 0,
+      })
+    }
+  }
+
+  recoverLastHistory() {
+    this.undo(this.historyRecord.list.size)
   }
 
   abstract draw(): {

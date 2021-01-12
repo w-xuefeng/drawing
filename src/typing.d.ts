@@ -5,7 +5,7 @@ import type HistoryRecord from './core/base/HistoryRecord'
 declare interface IDrawCanvas {
   canvas: HTMLCanvasElement | null
   canvasBackup: HTMLCanvasElement | null
-  historyRecord: HistoryRecord | null
+  historyRecord: HistoryRecord
   style: CSSProperties
 }
 
