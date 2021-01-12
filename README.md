@@ -1,7 +1,5 @@
 # drawing
 
-<img src="https://www.travis-ci.org/w-xuefeng/drawing.svg?branch=master" />
-
 > Vue.js + Canvas 简易画图小工具
 >
 > 计算机图形学 实验8
@@ -18,3 +16,7 @@
 
 - [x] 支持从外部拖拽图片到画板内编辑
  
+
+## 2021.1.12 更新
+
+- 使用 vue 3.0 + vite 重构

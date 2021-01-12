@@ -1,16 +1,30 @@
 <template>
-  <div id="app">
-    <Draw></Draw>
-  </div>
+  <Draw />
 </template>
 
-<script>
-import Draw from './components/draw'
+<script lang="ts">
+import { defineComponent } from 'vue'
+import Draw from './components/Draw.vue'
 
-export default {
-  name: 'app',
-  components: {
-    Draw
-  }
-}
+export default defineComponent({
+  name: 'App',
+  components: { Draw },
+})
 </script>
+
+<style>
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: rgb(187, 187, 187);
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+</style>
