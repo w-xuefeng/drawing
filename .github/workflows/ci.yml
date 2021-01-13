@@ -25,13 +25,13 @@ jobs:
           git push
 
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: 1. git checkout...
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: 2. setup nodejs...
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
 
       - name: 3. install dependencies...
         run: |
