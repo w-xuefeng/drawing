@@ -21,7 +21,7 @@ export default class Pencil extends BaseDrawTools {
   draw() {
     const noop = () => {}
     return {
-      onmousedown: (e: MouseEvent) => {
+      onmousedown: (_: MouseEvent) => {
         this.ctxBackup.beginPath()
       },
       onmousemove: (e: MouseEvent) => {

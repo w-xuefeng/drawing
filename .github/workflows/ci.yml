@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '0 0 * * *'
 
 jobs:
   autogreen:
@@ -23,3 +23,29 @@ jobs:
           date +"%Y-%m-%d %H:%M:%S.%N" > keepchange.txt
           git commit -am "a commit a day keeps your girlfriend away"
           git push
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. git checkout...
+        uses: actions/checkout@v1
+
+      - name: 2. setup nodejs...
+        uses: actions/setup-node@v1
+
+      - name: 3. install dependencies...
+        run: |
+          npm install
+
+      - name: 4. build
+        run: |
+          npm run build
+      - name: 5. deploy 'dist files'
+        run: |
+          cd dist
+          git init
+          git config user.name "XueFLY"
+          git config user.email "xuefeng@kcalb.wang"
+          git add .
+          git commit -am "Feat: Github Action Auto Build"
+          git push --force --quiet https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" master:gh-pages
