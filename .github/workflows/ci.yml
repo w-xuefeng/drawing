@@ -48,4 +48,4 @@ jobs:
           git config user.email "xuefeng@kcalb.wang"
           git add .
           git commit -am "Feat: Github Action Auto Build"
-          git push --force --quiet https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" master:gh-pages
+          git push --force --quiet https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} master:gh-pages
