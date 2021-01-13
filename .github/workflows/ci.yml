@@ -42,6 +42,7 @@ jobs:
           npm run build
       - name: 5. deploy 'dist files'
         run: |
+          copy .\README.md .\dist\README.md
           cd dist
           git init
           git config user.name "XueFLY"
