@@ -1,6 +1,6 @@
 # drawing
 
-[![Github Action](https://github.com/w-xuefeng/drawing/workflows/Deploy/badge.svg?branch=dev)](https://w-xuefeng.github.io/drawing)
+[![Github Action](https://github.com/w-xuefeng/drawing/workflows/Deploy/badge.svg?branch=master)](https://w-xuefeng.github.io/drawing)
 
 > Vue.js + Canvas 简易画图小工具
 >
