@@ -2,6 +2,7 @@
   <div
     class="history-record-item"
     :class="{ 'history-record-item-current': active }"
+    @click="onRecover"
   >
     <span class="history-record-item-index">{{ item[0] }}</span>
     <div class="history-record-item-img">
@@ -11,20 +12,30 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'HistoryItem',
   props: {
     active: {
       type: Boolean,
       default: false,
     },
+    currentTools: {
+      type: Object,
+      required: true,
+    },
     item: {
       type: Object,
-      default: () => ({}),
+      required: true
     },
   },
-}
+  setup(props) {
+    const onRecover = () => props.currentTools.undo(props.item[0])
+    return { onRecover }
+  },
+})
 </script>
 
 <style scoped>
@@ -33,6 +44,7 @@ export default {
   color: #fff;
   align-items: center;
   border-bottom: 1px solid #525252;
+  cursor: pointer;
 }
 .history-record-item-img {
   width: 30px;

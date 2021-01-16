@@ -1,4 +1,4 @@
-name: Auto Deploy
+name: Deploy
 
 on:
   push:
