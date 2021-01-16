@@ -21,6 +21,7 @@ body,
   height: 100%;
   overflow: hidden;
   background: rgb(187, 187, 187);
+  user-select: none;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

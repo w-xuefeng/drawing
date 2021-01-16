@@ -7,6 +7,11 @@
       @click="onEnable(tool)"
     />
   </div>
+  <HistoryWin
+    v-if="state.currentTools"
+    :historyRecord="historyRecord"
+    :currentTools="state.currentTools"
+  />
 </template>
 
 <script lang="ts">
@@ -17,10 +22,12 @@ import HistoryRecord from '../core/base/HistoryRecord'
 import Rubber from '../core/tools/Rubber'
 import BaseDrawTools from '../core/base/BaseDrawTools'
 import Tools from './Tools.vue'
+import HistoryWin from './HistoryWin.vue'
 import type { IDarwToolsBarState } from '../typing'
 
 export default defineComponent({
   name: 'ToolsBar',
+  emits: ['onStyleChange'],
   props: {
     canvas: {
       type: HTMLCanvasElement,
@@ -35,7 +42,7 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { Tools },
+  components: { Tools, HistoryWin },
   setup(props, vueCTX) {
     const state = reactive<IDarwToolsBarState>({
       currentTools: null,
