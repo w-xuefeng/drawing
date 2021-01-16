@@ -18,6 +18,7 @@
     </template>
     <template v-slot:function>
       <div class="pen-size">
+        <span class="pen-size-tips">粗细 {{ currentTools.size }}</span>
         <span class="pen-size-text">{{ min }}</span>
         <input type="range" v-model="currentTools.size" :min="min" :max="max" />
         <span class="pen-size-text">{{ max }}</span>
@@ -50,7 +51,7 @@ export default defineComponent({
 
 <style scoped>
 .pen-size {
-  width: 200px;
+  width: 230px;
   height: 30px;
   padding: 0 10px;
   position: fixed;
@@ -63,8 +64,13 @@ export default defineComponent({
   right: 54px;
   z-index: 3;
 }
+.pen-size-tips,
 .pen-size-text {
   font-size: 14px;
   color: var(--theme-right-bar-function-color)
+}
+.pen-size-tips {
+  margin-right: 5px;
+  color: var(--theme-right-bar-function-tips-color);
 }
 </style>

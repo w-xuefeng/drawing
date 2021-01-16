@@ -26,6 +26,7 @@ export default defineComponent({
   --theme-tools-bar-color-active: rgb(0, 0, 0);
   --theme-right-bar-function-background: rgb(53, 52, 52);
   --theme-right-bar-function-color: #fff;
+  --theme-right-bar-function-tips-color: rgb(194, 216, 229);
   --theme-right-bar-history-record-item-color: #fff;
   --theme-right-bar-history-record-item-img-background: #fff;
   --theme-right-bar-history-record-item-index-color: rgb(141, 141, 141);

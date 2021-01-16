@@ -6,6 +6,8 @@
       :currentTools="currentTools"
     />
     <PenSize v-if="currentTools" :currentTools="currentTools" />
+    <Dashed v-if="currentTools" :currentTools="currentTools" />
+    <Color v-if="currentTools" :currentTools="currentTools" />
   </div>
 </template>
 
@@ -13,11 +15,13 @@
 import { defineComponent } from 'vue'
 import HistoryWin from './HistoryWin.vue'
 import PenSize from './PenSize.vue'
+import Dashed from './Dashed.vue'
+import Color from './Color.vue'
 import HistoryRecord from '../core/base/HistoryRecord'
 
 export default defineComponent({
   name: 'RightBar',
-  components: { HistoryWin, PenSize },
+  components: { HistoryWin, PenSize, Dashed, Color },
   props: {
     historyRecord: {
       type: HistoryRecord,
