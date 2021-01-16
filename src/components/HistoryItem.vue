@@ -28,7 +28,7 @@ export default defineComponent({
     },
     item: {
       type: Object,
-      required: true
+      required: true,
     },
   },
   setup(props) {
@@ -41,7 +41,7 @@ export default defineComponent({
 <style scoped>
 .history-record-item {
   display: flex;
-  color: #fff;
+  color: var(--theme-right-bar-history-record-item-color);
   align-items: center;
   border-bottom: 1px solid #525252;
   cursor: pointer;
@@ -49,22 +49,22 @@ export default defineComponent({
 .history-record-item-img {
   width: 30px;
   height: 30px;
-  background: #fff;
+  background: var(--theme-right-bar-history-record-item-img-background);
   border: 1px solid rgb(0, 0, 0);
   margin-right: 20px;
 }
 .history-record-item-index {
   width: 30px;
   height: 30px;
-  color: rgb(141, 141, 141);
+  color: var(--theme-right-bar-history-record-item-index-color);
   font-size: 12px;
   text-align: center;
   line-height: 30px;
 }
 .history-record-item-text {
-  color: #fff;
+  color: var(--theme-right-bar-history-record-item-text-color);
 }
 .history-record-item-current {
-  background: #000;
+  background: var(--theme-right-bar-history-record-item-current-background);
 }
 </style>

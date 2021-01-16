@@ -34,7 +34,7 @@ export default class Pencil extends BaseDrawTools {
         const { clientX: x, clientY: y } = this.getClientPostion(e)
         this.ctx.beginPath()
         this.ctx.moveTo(x, y)
-        this.ctx.lineTo(x + this.size, y + this.size)
+        this.ctx.lineTo(x + 1, y + 1)
         this.ctx.stroke()
       },
       onmouseout: (_: MouseEvent) => {

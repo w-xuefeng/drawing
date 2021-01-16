@@ -22,7 +22,7 @@ export default defineComponent({
 .tools {
   width: 80px;
   height: 30px;
-  color: #fff;
+  color: var(--theme-tools-bar-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@ export default defineComponent({
 }
 
 .tools-active {
-  background: rgb(255, 255, 255);
-  color: #000;
+  background: var(--theme-tools-bar-background-active);
+  color:var(--theme-tools-bar-color-active);
 }
 </style>

@@ -7,7 +7,7 @@
       @click="onEnable(tool)"
     />
   </div>
-  <HistoryWin
+  <RightBar
     v-if="state.currentTools"
     :historyRecord="historyRecord"
     :currentTools="state.currentTools"
@@ -28,7 +28,7 @@ import Graffiti from '../core/tools/Graffiti'
 
 import BaseDrawTools from '../core/base/BaseDrawTools'
 import Tools from './Tools.vue'
-import HistoryWin from './HistoryWin.vue'
+import RightBar from './RightBar.vue'
 import type { IDarwToolsBarState } from '../typing'
 
 export default defineComponent({
@@ -48,7 +48,7 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { Tools, HistoryWin },
+  components: { Tools, RightBar },
   setup(props, vueCTX) {
     const state = reactive<IDarwToolsBarState>({
       currentTools: null,
@@ -145,25 +145,11 @@ export default defineComponent({
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--theme-tools-bar-background-color);
   border-radius: 30px;
   z-index: 2;
   display: flex;
   align-items: center;
   padding: 0 20px;
-}
-.tools-bar-tool {
-  width: 60px;
-  height: 30px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.tools-bar-tool-active {
-  background: rgb(203, 221, 255);
-  color: #000;
 }
 </style>
