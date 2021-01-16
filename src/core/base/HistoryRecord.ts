@@ -1,14 +1,13 @@
-import BaseDrawTools from './BaseDrawTools';
-export interface IHistoryRecordList<T extends BaseDrawTools = BaseDrawTools>{
-  tools: T,
-  data: string;
+import BaseDrawTools from './BaseDrawTools'
+export interface IHistoryRecordList<T extends BaseDrawTools = BaseDrawTools> {
+  tools: T
+  data: string
 }
 export default class HistoryRecord {
   public list: Map<number, IHistoryRecordList> = new Map()
   public index: number = 0
 
-  constructor() {
-  }
+  constructor() {}
 
   add(tools: BaseDrawTools, data: string) {
     this.index = this.list.size + 1
@@ -16,12 +15,19 @@ export default class HistoryRecord {
   }
 
   undo(i?: number) {
-    this.index = i || this.index - 1
-    return this.list.get(this.index)
+    const index = i || this.index - 1
+    if (index <= 0) return
+    return this.recoverRecord(index)
   }
 
   redo() {
-    this.index++
+    const index = this.index + 1
+    if (index > this.list.size) return
+    return this.recoverRecord(index)
+  }
+
+  recoverRecord(index: number) {
+    this.index = index
     return this.list.get(this.index)
   }
 }

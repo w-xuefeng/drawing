@@ -90,8 +90,10 @@ export default abstract class BaseDrawTools {
       e = e || window.event
       this.canDraw = false
       this.draw().onmouseup(e)
-      const image = new Image()
-      if (!this.rubber) {
+      if (this.rubber) {
+        this.historyRecord.add(this, this.canvas.toDataURL('image/png', 1))
+      } else {
+        const image = new Image()
         image.src = this.canvasBackup.toDataURL('image/png', 1)
         image.onload = () => {
           this.ctx.drawImage(
@@ -108,11 +110,6 @@ export default abstract class BaseDrawTools {
           this.clearContext()
           this.historyRecord.add(this, this.canvas.toDataURL('image/png', 1))
         }
-        const { clientX: x, clientY: y } = this.getClientPostion(e)
-        this.ctx.beginPath()
-        this.ctx.moveTo(x, y)
-        this.ctx.lineTo(x + 2, y + 2)
-        this.ctx.stroke()
       }
     }
 

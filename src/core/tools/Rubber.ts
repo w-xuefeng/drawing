@@ -44,12 +44,13 @@ export default class Rubber extends BaseDrawTools {
         this.ctxBackup.lineTo(x - this.size * 10, y + this.size * 10)
         this.ctxBackup.lineTo(x - this.size * 10, y - this.size * 10)
         this.ctxBackup.stroke()
-        this.canDraw && this.ctx.clearRect(
-          x - this.size * 10,
-          y - this.size * 10,
-          this.size * 20,
-          this.size * 20
-        )
+        this.canDraw &&
+          this.ctx.clearRect(
+            x - this.size * 10,
+            y - this.size * 10,
+            this.size * 20,
+            this.size * 20
+          )
         this.ctxBackup.setLineDash([this.dashedLineLong, this.dashedInterval])
       },
       onmouseup: noop,

@@ -31,7 +31,13 @@ export default class Pencil extends BaseDrawTools {
           this.ctxBackup.stroke()
         }
       },
-      onmouseup: noop,
+      onmouseup: (e: MouseEvent) => {
+        const { clientX: x, clientY: y } = this.getClientPostion(e)
+        this.ctx.beginPath()
+        this.ctx.moveTo(x, y)
+        this.ctx.lineTo(x + this.size, y + this.size)
+        this.ctx.stroke()
+      },
       onmouseout: noop,
     }
   }
