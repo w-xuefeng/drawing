@@ -17,9 +17,15 @@
 <script lang="ts">
 import { onMounted, reactive, defineComponent } from 'vue'
 import bindkey from '@w-xuefeng/bindkey'
-import Pencil from '../core/tools/Pencil'
 import HistoryRecord from '../core/base/HistoryRecord'
+
+import Pencil from '../core/tools/Pencil'
 import Rubber from '../core/tools/Rubber'
+import Line from '../core/tools/Line'
+import Circle from '../core/tools/Circle'
+import Square from '../core/tools/Square'
+import Graffiti from '../core/tools/Graffiti'
+
 import BaseDrawTools from '../core/base/BaseDrawTools'
 import Tools from './Tools.vue'
 import HistoryWin from './HistoryWin.vue'
@@ -80,7 +86,33 @@ export default defineComponent({
         'E'
       )
 
-      const tools = [pencil, rubber]
+      const line = new Line(
+        props.canvas,
+        props.canvasBackup,
+        props.historyRecord,
+        'L'
+      )
+      const circle = new Circle(
+        props.canvas,
+        props.canvasBackup,
+        props.historyRecord,
+        'C'
+      )
+
+      const square = new Square(
+        props.canvas,
+        props.canvasBackup,
+        props.historyRecord,
+        'S'
+      )
+      const graffiti = new Graffiti(
+        props.canvas,
+        props.canvasBackup,
+        props.historyRecord,
+        'G'
+      )
+
+      const tools = [pencil, rubber, line, circle, square, graffiti]
 
       return tools.map(bindKeyToTools)
     }

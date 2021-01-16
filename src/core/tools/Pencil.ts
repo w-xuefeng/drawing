@@ -19,7 +19,6 @@ export default class Pencil extends BaseDrawTools {
     )
   }
   draw() {
-    const noop = () => {}
     return {
       onmousedown: (_: MouseEvent) => {
         this.ctxBackup.beginPath()
@@ -38,7 +37,9 @@ export default class Pencil extends BaseDrawTools {
         this.ctx.lineTo(x + this.size, y + this.size)
         this.ctx.stroke()
       },
-      onmouseout: noop,
+      onmouseout: (_: MouseEvent) => {
+        this.clearContext()
+      },
     }
   }
 }

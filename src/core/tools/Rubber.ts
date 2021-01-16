@@ -54,7 +54,7 @@ export default class Rubber extends BaseDrawTools {
         this.ctxBackup.setLineDash([this.dashedLineLong, this.dashedInterval])
       },
       onmouseup: noop,
-      onmouseout: () => {
+      onmouseout: (_: MouseEvent) => {
         this.clearContext()
       },
     }

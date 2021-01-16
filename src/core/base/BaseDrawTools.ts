@@ -74,6 +74,8 @@ export default abstract class BaseDrawTools {
     this.canvasBackup.style.zIndex = '1'
     this.canDraw = false
     this.active = true
+    let startX: number = 0
+    let startY: number = 0
 
     const mousedown = (e: MouseEvent) => {
       this.ctx.strokeStyle = this.color
@@ -81,6 +83,8 @@ export default abstract class BaseDrawTools {
       this.ctxBackup.lineWidth = this.size
       e = e || window.event
       const { clientX, clientY } = this.getClientPostion(e)
+      startX = clientX
+      startY = clientY
       this.ctxBackup.moveTo(clientX, clientY)
       this.canDraw = true
       this.draw().onmousedown(e)
@@ -116,7 +120,7 @@ export default abstract class BaseDrawTools {
     const mousemove = (e: MouseEvent) => {
       e = e || window.event
       this.ctxBackup.setLineDash([this.dashedLineLong, this.dashedInterval])
-      this.draw().onmousemove(e)
+      this.draw().onmousemove(e, { startX, startY })
     }
 
     const mouseout = (e: MouseEvent) => {
@@ -193,7 +197,10 @@ export default abstract class BaseDrawTools {
 
   abstract draw(): {
     onmousedown: (e: MouseEvent) => void
-    onmousemove: (e: MouseEvent) => void
+    onmousemove: (
+      e: MouseEvent,
+      options?: { startX: number; startY: number }
+    ) => void
     onmouseup: (e: MouseEvent) => void
     onmouseout: (e: MouseEvent) => void
   }
