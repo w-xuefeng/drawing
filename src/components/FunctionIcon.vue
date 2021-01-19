@@ -1,7 +1,11 @@
 <template>
   <div @click="toggleShow" class="function-icon">
     <slot name="icon"></slot>
-    <span class="function-icon-text">{{ tools.name }}({{ tools.key }})</span>
+    <span class="function-icon-text">
+      {{ tools.name }}
+      <br v-if="tools.key.includes('+')" />
+      ({{ tools.key }})
+    </span>
   </div>
   <div v-if="show">
     <slot name="function"></slot>
@@ -22,8 +26,12 @@ export default defineComponent({
   },
   setup(props) {
     const show = ref(false)
-    const toggleShow = () => (show.value = !show.value)
-    bindkey.add(props.tools.key, toggleShow)
+    let toggleShow = () => (show.value = !show.value)
+    if (props.tools.noPanel && typeof props.tools.cb === 'function') {
+      toggleShow = props.tools.cb
+    } else {
+      bindkey.add(props.tools.key, toggleShow)
+    }
     return { show, toggleShow }
   },
 })
@@ -41,5 +49,6 @@ export default defineComponent({
 .function-icon-text {
   font-size: 12px;
   color: rgb(59, 59, 59);
+  text-align: center;
 }
 </style>

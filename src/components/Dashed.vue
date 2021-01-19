@@ -95,6 +95,7 @@ export default defineComponent({
 .dashed-tips,
 .dashed-text {
   font-size: 14px;
+  line-height: 14px;
   color: var(--theme-right-bar-function-color);
 }
 .dashed-tips {

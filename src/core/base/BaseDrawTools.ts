@@ -195,6 +195,26 @@ export default abstract class BaseDrawTools {
     this.undo(this.historyRecord.list.size)
   }
 
+  output(format?: 'png' | 'jpeg' | 'webp') {
+    const a = document.createElement('a')
+    const ext = format || 'webp'
+    a.href = this.canvas.toDataURL(`image/${ext}`, 1)
+    if (format === 'jpeg') {
+      const canvas = document.createElement('canvas')
+      canvas.width = this.canvas.width
+      canvas.height = this.canvas.height
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.fillStyle = '#fff'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(this.canvas, 0, 0)
+        a.href = canvas.toDataURL(`image/${ext}`, 1)
+      }
+    }
+    a.download = `drawing.${ext}`
+    a.click()
+  }
+
   abstract draw(): {
     onmousedown: (e: MouseEvent) => void
     onmousemove: (

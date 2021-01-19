@@ -67,6 +67,7 @@ export default defineComponent({
 .pen-size-tips,
 .pen-size-text {
   font-size: 14px;
+  line-height: 14px;
   color: var(--theme-right-bar-function-color)
 }
 .pen-size-tips {
