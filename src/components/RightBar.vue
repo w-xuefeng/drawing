@@ -1,15 +1,11 @@
 <template>
-  <div class="right-bar">
-    <HistoryWin
-      v-if="currentTools"
-      :historyRecord="historyRecord"
-      :currentTools="currentTools"
-    />
-    <PenSize v-if="currentTools" :currentTools="currentTools" />
-    <Dashed v-if="currentTools" :currentTools="currentTools" />
-    <Color v-if="currentTools" :currentTools="currentTools" />
-    <Clear v-if="currentTools" :currentTools="currentTools" />
-    <Output v-if="currentTools" :currentTools="currentTools" />
+  <div class="right-bar" v-if="currentTools">
+    <HistoryWin :currentTools="currentTools" :historyRecord="historyRecord" />
+    <PenSize :currentTools="currentTools" />
+    <Dashed :currentTools="currentTools" />
+    <Color :currentTools="currentTools" />
+    <Clear :currentTools="currentTools" />
+    <Output :currentTools="currentTools" />
   </div>
 </template>
 
