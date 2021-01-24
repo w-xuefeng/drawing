@@ -1,5 +1,6 @@
 <template>
   <div class="tools" :class="{ 'tools-active': tools.active }">
+    <i v-if="tools.icon" class="material-icons tools-icon">{{ tools.icon }}</i>
     <span> {{ tools.name }} {{ tools.key ? `(${tools.key})` : '' }} </span>
   </div>
 </template>
@@ -20,7 +21,7 @@ export default defineComponent({
 
 <style scoped>
 .tools {
-  width: 80px;
+  width: 90px;
   height: 30px;
   color: var(--theme-tools-bar-color);
   display: flex;
@@ -32,6 +33,11 @@ export default defineComponent({
 
 .tools-active {
   background: var(--theme-tools-bar-background-active);
-  color:var(--theme-tools-bar-color-active);
+  color: var(--theme-tools-bar-color-active);
+}
+
+.tools-icon {
+  font-size: 20px;
+  line-height: 30px;
 }
 </style>

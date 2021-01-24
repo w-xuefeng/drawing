@@ -25,6 +25,7 @@ import Line from '../core/tools/Line'
 import Circle from '../core/tools/Circle'
 import Square from '../core/tools/Square'
 import Graffiti from '../core/tools/Graffiti'
+import DND from '../core/utils/DND'
 
 import BaseDrawTools from '../core/base/BaseDrawTools'
 import Tools from './Tools.vue'
@@ -112,13 +113,15 @@ export default defineComponent({
         'G'
       )
 
+      const dnd = new DND(props.canvas, props.canvasBackup, props.historyRecord)
+
       const tools = [pencil, rubber, line, circle, square, graffiti]
 
       return tools.map(bindKeyToTools)
     }
 
     const initFunctionShortKey = () => {
-      bindkey.add('Ctrl+L', () => state.currentTools?.clearContext(true))
+      bindkey.add('Ctrl+L', () => state.currentTools?.clearContext(true, true))
       bindkey.add('Ctrl+Z', () => state.currentTools?.undo())
       bindkey.add('Ctrl+Y', () => state.currentTools?.redo())
     }
@@ -127,6 +130,7 @@ export default defineComponent({
       state.tools = initTools()
       initFunctionShortKey()
       onEnable(state.tools[0])
+      state.currentTools?.clearContext(true, true, '初始化画板')
     }
 
     onMounted(init)

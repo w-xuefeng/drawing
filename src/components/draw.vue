@@ -56,7 +56,9 @@ export default defineComponent({
           const lastRecord = state.historyRecord.list.get(
             state.historyRecord.list.size
           )
-          lastRecord && lastRecord.tools.recoverLastHistory()
+          if (typeof lastRecord?.tools?.recoverLastHistory === 'function') {
+            lastRecord?.tools?.recoverLastHistory()
+          }
           resolve(true)
         } else {
           reject('canvas is not ready')

@@ -37,7 +37,7 @@ export default defineComponent({
       name: '清空',
       key: 'Ctrl+L',
       noPanel: true,
-      cb: () => props.currentTools.clearContext(true)
+      cb: () => props.currentTools.clearContext(true, true)
     })
     return { tools }
   },

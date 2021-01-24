@@ -23,6 +23,7 @@ export default abstract class BaseDrawTools {
   public dashedLineLong: number = 0
   public dashedInterval: number = 0
   public canDraw: boolean = false
+  public emptyName: string = '清空'
 
   /**utils property*/
   public historyRecord: HistoryRecord
@@ -51,11 +52,16 @@ export default abstract class BaseDrawTools {
     this.active = active
   }
 
-  clearContext(clearAll?: boolean) {
+  clearContext(clearAll?: boolean, addHistory?: boolean, emptyName?: string) {
     if (clearAll) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
     this.ctxBackup.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    if (addHistory) {
+      const blank = { ...this }
+      blank.name = emptyName || this.emptyName
+      this.historyRecord.add(blank, this.canvas.toDataURL('image/png', 1))
+    }
   }
 
   getClientPostion(e: MouseEvent) {
