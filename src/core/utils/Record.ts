@@ -38,9 +38,9 @@ export default class Record {
   enWhiteCanvasBackground() {
     if (this.ctx) {
       const backupFillStyle = this.ctx.fillStyle
-      const backuoPrevContent = this.canvas.toDataURL('image/png', 1)
+      const backupPrevContent = this.canvas.toDataURL('image/png', 1)
       const image = new Image()
-      image.src = backuoPrevContent
+      image.src = backupPrevContent
       this.ctx.fillStyle = '#FFFFFF'
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
       this.ctx.drawImage(
