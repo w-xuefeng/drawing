@@ -35,7 +35,7 @@ export default class Record {
     };
   }
 
-  enWhiteCanvasBackgroound() {
+  enWhiteCanvasBackground() {
     if (this.ctx) {
       const backupFillStyle = this.ctx.fillStyle
       const backuoPrevContent = this.canvas.toDataURL('image/png', 1)
@@ -62,7 +62,7 @@ export default class Record {
     if (this.recorder && typeof this.recorder.start === 'function' && !this.recording) {
       this.recording = true
       this.onRecordStart()
-      whiteBackground && this.enWhiteCanvasBackgroound()
+      whiteBackground && this.enWhiteCanvasBackground()
       this.recorder.start();
     }
   }
