@@ -3,7 +3,7 @@
     <canvas canvas ref="canvas" :style="state.style"></canvas>
     <canvas canvasBackup ref="canvasBackup" :style="state.style"></canvas>
     <ToolsBar
-      v-if="ready"
+      v-if="ready && state.canvas && state.canvasBackup"
       :canvas="state.canvas"
       :canvasBackup="state.canvasBackup"
       :historyRecord="state.historyRecord"
@@ -14,14 +14,13 @@
 
 <script lang="ts">
 import { onMounted, ref, reactive, defineComponent, CSSProperties } from 'vue'
-import Pencil from '../core/tools/Pencil'
 import HistoryRecord from '../core/base/HistoryRecord'
 import ToolsBar from './ToolsBar.vue'
 import { debounce } from '../utils'
 import type { IDrawCanvas } from '../typing'
 
 export default defineComponent({
-  name: 'Draw',
+  name: 'DrawingBoard',
   components: {
     ToolsBar,
   },

@@ -11,6 +11,7 @@
     v-if="state.currentTools"
     :historyRecord="historyRecord"
     :currentTools="state.currentTools"
+    :canvas="canvas"
   />
 </template>
 
@@ -113,7 +114,7 @@ export default defineComponent({
         'G'
       )
 
-      const dnd = new DND(props.canvas, props.canvasBackup, props.historyRecord)
+      new DND(props.canvas, props.canvasBackup, props.historyRecord)
 
       const tools = [pencil, rubber, line, circle, square, graffiti]
 

@@ -6,6 +6,7 @@
     <Color :currentTools="currentTools" />
     <Clear :currentTools="currentTools" />
     <Output :currentTools="currentTools" />
+    <Recorder :currentTools="currentTools" :canvas="canvas" />
   </div>
 </template>
 
@@ -17,11 +18,12 @@ import Dashed from './Dashed.vue'
 import Color from './Color.vue'
 import Clear from './Clear.vue'
 import Output from './Output.vue'
+import Recorder from './Recorder.vue'
 import HistoryRecord from '../core/base/HistoryRecord'
 
 export default defineComponent({
   name: 'RightBar',
-  components: { HistoryWin, PenSize, Dashed, Color, Clear, Output },
+  components: { HistoryWin, PenSize, Dashed, Color, Clear, Output, Recorder },
   props: {
     historyRecord: {
       type: HistoryRecord,
@@ -29,6 +31,10 @@ export default defineComponent({
     },
     currentTools: {
       type: Object,
+      required: true,
+    },
+    canvas: {
+      type: HTMLCanvasElement,
       required: true,
     },
   },

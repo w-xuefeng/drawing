@@ -26,3 +26,7 @@
 - 使用 vue 3.0 + vite 重构
 
 - [V2 预览地址](https://w-xuefeng.github.io/drawing)
+
+## 2021.10.29 更新
+
+- [x] 支持录制历史记录为视频，并在浏览器中打开和下载

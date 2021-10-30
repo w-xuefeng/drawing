@@ -1,7 +1,7 @@
 <template>
   <div @click="toggleShow" class="function-icon">
     <slot name="icon"></slot>
-    <span class="function-icon-text">
+    <span class="function-icon-text" :style="labelStyle">
       {{ tools.name }}
       <br v-if="tools.key.includes('+')" />
       ({{ tools.key }})
@@ -23,17 +23,21 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    labelStyle: {
+      type: Object,
+    },
   },
   setup(props) {
     const show = ref(false)
     let toggleShow = () => (show.value = !show.value)
+    const forceClosePanel = () => (show.value = false)
     if (props.tools.noPanel && typeof props.tools.cb === 'function') {
       toggleShow = props.tools.cb
     } else {
       bindkey.add(props.tools.key, toggleShow)
     }
-    return { show, toggleShow }
-  },
+    return { show, toggleShow, forceClosePanel }
+  }
 })
 </script>
 
