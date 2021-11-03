@@ -119,7 +119,7 @@ export default defineComponent({
       }
       const enUrl = encodeURIComponent(url)
       const enUrlBackup = encodeURIComponent(urlBackup)
-      const playerPage = `/player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
+      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
       window.open(playerPage)
     }
 
