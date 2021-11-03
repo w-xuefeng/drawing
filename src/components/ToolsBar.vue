@@ -12,6 +12,7 @@
     :historyRecord="historyRecord"
     :currentTools="state.currentTools"
     :canvas="canvas"
+    :canvasBackup="canvasBackup"
   />
 </template>
 

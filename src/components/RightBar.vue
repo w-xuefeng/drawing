@@ -6,7 +6,11 @@
     <Color :currentTools="currentTools" />
     <Clear :currentTools="currentTools" />
     <Output :currentTools="currentTools" />
-    <Recorder :currentTools="currentTools" :canvas="canvas" />
+    <Recorder
+      :currentTools="currentTools"
+      :canvas="canvas"
+      :canvasBackup="canvasBackup"
+    />
   </div>
 </template>
 
@@ -34,6 +38,10 @@ export default defineComponent({
       required: true,
     },
     canvas: {
+      type: HTMLCanvasElement,
+      required: true,
+    },
+    canvasBackup: {
       type: HTMLCanvasElement,
       required: true,
     },

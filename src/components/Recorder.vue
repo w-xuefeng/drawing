@@ -88,6 +88,10 @@ export default defineComponent({
       type: HTMLCanvasElement,
       required: true,
     },
+    canvasBackup: {
+      type: HTMLCanvasElement,
+      required: true,
+    },
     currentTools: {
       type: Object,
       required: true,
@@ -96,7 +100,7 @@ export default defineComponent({
   setup(props) {
     const functionIconRef = ref()
     const recording = ref(false)
-    const record = new Record(props.canvas)
+    const record = new Record(props.canvas, props.canvasBackup)
 
     const state = reactive({
       backupToogleShow: () => {},
@@ -106,14 +110,17 @@ export default defineComponent({
       recording.value = true
     }
 
-    record.onRecordEnd = (url) => {
+    record.onRecordEnd = (url, urlBackup) => {
       recording.value = false
-      window.open(url)
       if (functionIconRef.value) {
         functionIconRef.value.toggleShow = state.backupToogleShow
         bindkey.remove(toolsOptions.startKey)
         bindkey.add(toolsOptions.startKey, state.backupToogleShow)
       }
+      const enUrl = encodeURIComponent(url)
+      const enUrlBackup = encodeURIComponent(urlBackup)
+      const playerPage = `/player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
+      window.open(playerPage)
     }
 
     const clickToStopRecord = () => {
