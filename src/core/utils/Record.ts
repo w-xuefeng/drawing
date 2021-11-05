@@ -39,6 +39,8 @@ export default class Record {
     this.datasBackup = []
     this.recording = false
     this.hasOnAllStoped = false
+    this.stopStatus.primary = false
+    this.stopStatus.backup = false
     this.recorder = this.recorderFactory(this.canvas, this.datas, 'primary')
     this.recorderBackup = this.recorderFactory(this.canvasBackup, this.datasBackup, 'backup')
   }
