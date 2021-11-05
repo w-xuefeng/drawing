@@ -244,7 +244,7 @@ export default defineComponent({
     const getQueryString = (name: string) => {
       const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
       const r = window.location.search.substr(1).match(reg);
-      if (r != null) return decodeURI(r[2]);
+      if (r != null) return decodeURIComponent(r[2]);
       return null;
     };
 
@@ -252,14 +252,14 @@ export default defineComponent({
       state.video = document.querySelector("video.primary");
       state.videoBackup = document.querySelector("video.backup");
 
-      const [enCodeUrl, enCodeUrlBackup] = [
+      const [url, urlBackup] = [
         getQueryString("url"),
         getQueryString("urlBackup"),
       ];
 
-      if (enCodeUrl && enCodeUrlBackup && state.video && state.videoBackup) {
-        state.video.src = decodeURIComponent(enCodeUrl);
-        state.videoBackup.src = decodeURIComponent(enCodeUrlBackup);
+      if (url && urlBackup && state.video && state.videoBackup) {
+        state.video.src = url;
+        state.videoBackup.src = urlBackup;
         state.playing = true;
         const onended = () => (state.playing = false);
         state.video.onended = onended;
