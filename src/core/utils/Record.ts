@@ -1,3 +1,5 @@
+import fixWebmMetaInfo from 'fix-webm-metainfo';
+
 export default class Record {
   canvas: HTMLCanvasElement
   canvasBackup: HTMLCanvasElement
@@ -16,6 +18,8 @@ export default class Record {
     backup: false
   }
   hasOnAllStoped = false
+  mimeType = 'video/webm;codecs=vp9';
+  timeSlice = 1000
 
   constructor(canvas: HTMLCanvasElement, canvasBackup: HTMLCanvasElement, frameRequestRate: number = 60) {
     this.canvas = canvas
@@ -48,7 +52,10 @@ export default class Record {
   recorderFactory(canvas: HTMLCanvasElement, datas: Blob[], stopType: keyof typeof this.stopStatus) {
     const recorder = new MediaRecorder(
       canvas.captureStream(this.frameRequestRate),
-      { mimeType: 'video/webm' }
+      {
+        mimeType: this.mimeType,
+        videoBitsPerSecond: 1e6
+      }
     );
     this.registerOnData(recorder, datas)
     this.registerOnStop(recorder, stopType)
@@ -69,11 +76,15 @@ export default class Record {
     };
   }
 
-  onAllRecorderStop() {
+  async onAllRecorderStop() {
     this.hasOnAllStoped = true
     this.recording = false
-    const url = URL.createObjectURL(new Blob(this.datas, { type: 'video/webm' }));
-    const urlBackup = URL.createObjectURL(new Blob(this.datasBackup, { type: 'video/webm' }));
+    const originBlob = new Blob([...this.datas], { type: this.mimeType })
+    const originBlobBackup = new Blob([...this.datasBackup], { type: this.mimeType })
+    const fixedWebMBlob = await fixWebmMetaInfo(originBlob);
+    const fixedWebMBlobBackup = await fixWebmMetaInfo(originBlobBackup);
+    const url = URL.createObjectURL(fixedWebMBlob);
+    const urlBackup = URL.createObjectURL(fixedWebMBlobBackup);
     this.onRecordEnd(url, urlBackup)
   }
 
@@ -98,8 +109,8 @@ export default class Record {
       this.recording = true
       this.onRecordStart()
       whiteBackground && this.enWhiteCanvasBackground()
-      this.recorderBackup.start()
-      this.recorder.start()
+      this.recorderBackup.start(this.timeSlice)
+      this.recorder.start(this.timeSlice)
     }
   }
 
