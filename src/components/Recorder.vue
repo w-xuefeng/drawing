@@ -20,12 +20,12 @@
           d="M729.9072 856.576H40.3456V167.0144h689.5616z m-607.6416-81.92h525.7216V248.9344H122.2656z"
           fill="#d81e06"
           p-id="3371"
-        ></path>
+        />
         <path
           d="M983.04 815.7184L647.3728 512 983.04 208.2816zM769.4336 512L901.12 631.1936V392.9088zM280.576 410.0096h81.92v203.6736h-81.92zM407.7568 410.0096h81.92v203.6736h-81.92z"
           fill="#d81e06"
           p-id="3372"
-        ></path>
+        />
       </svg>
       <svg
         v-else
@@ -42,12 +42,12 @@
           d="M729.9072 856.576H40.3456V167.0144h689.5616z m-607.6416-81.92h525.7216V248.9344H122.2656z"
           fill="#515151"
           p-id="2907"
-        ></path>
+        />
         <path
           d="M983.04 815.7184L647.3728 512 983.04 208.2816zM769.4336 512L901.12 631.1936V392.9088zM483.84 512l-148.0704-101.888v203.776L483.84 512z"
           fill="#515151"
           p-id="2908"
-        ></path>
+        />
       </svg>
     </template>
     <template v-slot:function>
@@ -62,6 +62,28 @@
           <span class="recorder-item-text">{{ item.format }}</span>
           <span class="recorder-item-tips">{{ item.key }}</span>
         </div>
+        <ScreenRecorderVue
+          :short-key="screenRecordOptions.startKey"
+          :video-options="videoOptions"
+          @recording-end="onScreenRecorderEnd"
+        >
+          <template v-slot:start="{ startEvent, endEvent }">
+            <div
+              class="recorder-item"
+              @click="startScreenRecorder(startEvent, endEvent)"
+              v-show="!recording"
+            >
+              <span class="recorder-item-text">{{ screenRecordOptions.startText }}</span>
+              <span class="recorder-item-tips">{{ screenRecordOptions.startKey }}</span>
+            </div>
+          </template>
+          <template v-slot:end="{ endEvent }">
+            <div class="recorder-item" @click="endEvent" v-show="recording">
+              <span class="recorder-item-text">{{ screenRecordOptions.endText }}</span>
+              <span class="recorder-item-tips">{{ screenRecordOptions.endKey }}</span>
+            </div>
+          </template>
+        </ScreenRecorderVue>
       </div>
     </template>
   </FunctionIcon>
@@ -69,6 +91,7 @@
 
 <script lang="ts">
 import bindkey from '@w-xuefeng/bindkey'
+import ScreenRecorderVue from 'screen-recorder-vue';
 import { ref, defineComponent, computed, reactive } from 'vue'
 import FunctionIcon from './FunctionIcon.vue'
 import Record from '../core/utils/Record'
@@ -80,9 +103,22 @@ const toolsOptions = {
   endText: '停止',
 }
 
+const videoOptions: MediaTrackConstraints = {
+  width: 1920,
+  height: 1080,
+  frameRate: 60
+}
+
+const screenRecordOptions = {
+  startText: '开始录制（录制屏幕）',
+  endText: '结束录制（结束录屏）',
+  startKey: 'Alt+Shift+D',
+  endKey: 'ESC'
+}
+
 export default defineComponent({
   name: 'Recorder',
-  components: { FunctionIcon },
+  components: { FunctionIcon, ScreenRecorderVue },
   props: {
     canvas: {
       type: HTMLCanvasElement,
@@ -103,7 +139,7 @@ export default defineComponent({
     const record = new Record(props.canvas, props.canvasBackup)
 
     const state = reactive({
-      backupToogleShow: () => {},
+      backupToogleShow: () => { },
     })
 
     record.onRecordStart = () => {
@@ -123,6 +159,19 @@ export default defineComponent({
       window.open(playerPage)
     }
 
+    const startScreenRecorder = (startEvent: Function, endEvent: Function) => {
+      if (functionIconRef.value) {
+        state.backupToogleShow = functionIconRef.value.toggleShow
+        functionIconRef.value.forceClosePanel()
+        functionIconRef.value.toggleShow = endEvent
+        bindkey.remove(toolsOptions.startKey)
+      }
+      bindkey.remove(toolsOptions.endKey)
+      bindkey.add(toolsOptions.endKey, endEvent)
+      recording.value = true
+      startEvent()
+    }
+
     const clickToStopRecord = () => {
       recording.value && record.endRecord()
     }
@@ -135,6 +184,21 @@ export default defineComponent({
         functionIconRef.value.toggleShow = clickToStopRecord
         bindkey.remove(toolsOptions.startKey)
       }
+    }
+
+    const onScreenRecorderEnd = (url: string) => {
+      recording.value = false
+      if (functionIconRef.value) {
+        functionIconRef.value.toggleShow = state.backupToogleShow
+        bindkey.remove(toolsOptions.startKey)
+        bindkey.add(toolsOptions.startKey, state.backupToogleShow)
+      }
+      bindkey.remove(toolsOptions.endKey)
+      bindkey.add(toolsOptions.endKey, clickToStopRecord)
+      const enUrl = encodeURIComponent(url)
+      const enUrlBackup = encodeURIComponent(url)
+      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
+      window.open(playerPage)
     }
 
     const tools = computed(() => ({
@@ -163,7 +227,16 @@ export default defineComponent({
 
     menuList.value.forEach((item) => bindkey.add(item.key, item.onClick))
 
-    return { tools, menuList, recording, functionIconRef }
+    return {
+      tools,
+      menuList,
+      recording,
+      functionIconRef,
+      videoOptions,
+      screenRecordOptions,
+      onScreenRecorderEnd,
+      startScreenRecorder
+    }
   },
 })
 </script>
