@@ -7,18 +7,18 @@
   },
   "dependencies": {
     "@w-xuefeng/bindkey": "^1.0.1",
-    "fix-webm-metainfo": "git+https://github.com/w-xuefeng/fix-webm-meta.git",
-    "screen-recorder-vue": "^0.0.6",
-    "vue": "^3.2.20"
+    "@w-xuefeng/fix-webm-metainfo": "^1.0.8",
+    "screen-recorder-vue": "^0.0.8",
+    "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@types/node": "^16.11.6",
+    "@types/node": "^16.11.45",
     "@types/recordrtc": "^5.6.8",
-    "@vitejs/plugin-vue": "^ 1.9.4",
-    "@vue/compiler-sfc": "^3.2.20",
-    "@vuedx/typecheck": "^0.7.4",
-    "@vuedx/typescript-plugin-vue": "^0.7.4",
-    "typescript": "^4.4.4",
-    "vite": "^2.6.13"
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/compiler-sfc": "^3.2.37",
+    "@vuedx/typecheck": "^0.7.5",
+    "@vuedx/typescript-plugin-vue": "^0.7.5",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2"
   }
 }
