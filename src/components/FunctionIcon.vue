@@ -7,7 +7,7 @@
       ({{ tools.key }})
     </span>
   </div>
-  <div v-if="show">
+  <div v-show="show">
     <slot name="function"></slot>
   </div>
 </template>
