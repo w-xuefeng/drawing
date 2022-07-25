@@ -17,6 +17,9 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         player: resolve(__dirname, 'player.html')
+      },
+      output: {
+        sanitizeFileName: name => `${name.replace('\x00', 'vite-').replace(/:/, '-')}`
       }
     }
   }
