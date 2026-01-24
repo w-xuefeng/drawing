@@ -36,11 +36,11 @@
     <template v-else>
       <div class="backup-wrap" :class="{ 'over-video': state.overlap }">
         <video class="backup" muted autoplay></video>
-        <h4>{{ state.overlap ? '叠加视频轨道' : '过程视频轨道' }}</h4>
+        <h4>{{ state.overlap ? "叠加视频轨道" : "过程视频轨道" }}</h4>
       </div>
       <div class="primary-wrap" :class="{ 'over-video': state.overlap }">
         <video class="primary" muted autoplay></video>
-        <h4>{{ state.overlap ? '&nbsp;' : '结果视频轨道' }}</h4>
+        <h4>{{ state.overlap ? "&nbsp;" : "结果视频轨道" }}</h4>
       </div>
     </template>
   </div>
@@ -69,7 +69,11 @@
       </svg>
       <span>播放</span>
     </button>
-    <button puseBtn @click="puseEvent" :disabled="state.error || !state.playing">
+    <button
+      puseBtn
+      @click="puseEvent"
+      :disabled="state.error || !state.playing"
+    >
       <svg
         t="1635955363218"
         class="icon"
@@ -117,7 +121,11 @@
       </svg>
       <span>停止</span>
     </button>
-    <button togglePlayTypeBtn @click="togglePlayTypeEvent" :disabled="state.error">
+    <button
+      togglePlayTypeBtn
+      @click="togglePlayTypeEvent"
+      :disabled="state.error"
+    >
       <svg
         t="1636272157023"
         class="icon"
@@ -139,7 +147,7 @@
           p-id="1052"
         />
       </svg>
-      <span>{{ state.overlap ? '拆分' : '叠加' }}</span>
+      <span>{{ state.overlap ? "拆分" : "叠加" }}</span>
     </button>
     <button openBtn1 :disabled="state.error" @click="openBackupEvent">
       <svg
@@ -264,8 +272,8 @@ export default defineComponent({
 
     const getQueryString = (name: string) => {
       const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-      const r = window.location.search.substr(1).match(reg);
-      if (r != null) return decodeURIComponent(r[2]);
+      const r = window.location.search.substring(1).match(reg);
+      if (r != null) return decodeURIComponent(r[2]!);
       return null;
     };
 
@@ -291,8 +299,8 @@ export default defineComponent({
     };
 
     const togglePlayTypeEvent = () => {
-      state.overlap = !state.overlap
-    }
+      state.overlap = !state.overlap;
+    };
 
     onMounted(init);
 
@@ -425,7 +433,12 @@ button {
   box-shadow: none;
   font-size: 14px;
   line-height: 20px;
-  font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family:
+    Microsoft YaHei,
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
   height: 32px;
   display: inline-flex;
   align-items: center;

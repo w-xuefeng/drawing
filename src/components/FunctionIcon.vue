@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import bindkey from '@w-xuefeng/bindkey'
-import { defineComponent, ref } from 'vue'
+import { bindkey } from "@w-xuefeng/bindkey";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'FunctionIcon',
+  name: "FunctionIcon",
   props: {
     tools: {
       type: Object,
@@ -28,17 +28,17 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const show = ref(false)
-    let toggleShow = () => (show.value = !show.value)
-    const forceClosePanel = () => (show.value = false)
-    if (props.tools.noPanel && typeof props.tools.cb === 'function') {
-      toggleShow = props.tools.cb
+    const show = ref(false);
+    let toggleShow = () => (show.value = !show.value);
+    const forceClosePanel = () => (show.value = false);
+    if (props.tools.noPanel && typeof props.tools.cb === "function") {
+      toggleShow = props.tools.cb;
     } else {
-      bindkey.add(props.tools.key, toggleShow)
+      bindkey.add(props.tools.key, toggleShow);
     }
-    return { show, toggleShow, forceClosePanel }
-  }
-})
+    return { show, toggleShow, forceClosePanel };
+  },
+});
 </script>
 
 <style scoped>

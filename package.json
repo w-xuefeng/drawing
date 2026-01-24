@@ -3,22 +3,22 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vuedx-typecheck . && vite build"
+    "build": "vue-tsc --noEmit -p tsconfig.typecheck.json && vite build"
   },
   "dependencies": {
-    "@w-xuefeng/bindkey": "^1.0.1",
+    "@w-xuefeng/bindkey": "^1.0.3",
     "@w-xuefeng/fix-webm-metainfo": "^1.0.8",
-    "screen-recorder-vue": "^0.0.8",
-    "vue": "^3.2.37"
+    "screen-recorder-vue": "^0.0.12",
+    "vue": "^3.5.27"
   },
   "devDependencies": {
-    "@types/node": "^16.11.45",
-    "@types/recordrtc": "^5.6.8",
-    "@vitejs/plugin-vue": "^3.0.1",
-    "@vue/compiler-sfc": "^3.2.37",
-    "@vuedx/typecheck": "^0.7.5",
-    "@vuedx/typescript-plugin-vue": "^0.7.5",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.2"
+    "@types/node": "^25.0.10",
+    "@types/recordrtc": "^5.6.15",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "@vue/compiler-sfc": "^3.5.27",
+    "@vue/tsconfig": "^0.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vue-tsc": "^3.2.3"
   }
 }

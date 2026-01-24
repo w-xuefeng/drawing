@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import { resolve } from "path";
+import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
   plugins: [
@@ -8,19 +8,20 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: [
-      'recordrtc',
-    ]
+      "recordrtc",
+    ],
   },
-  base: './',
+  base: "./",
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        player: resolve(__dirname, 'player.html')
+        main: resolve(__dirname, "index.html"),
+        player: resolve(__dirname, "player.html"),
       },
       output: {
-        sanitizeFileName: name => `${name.replace('\x00', 'vite-').replace(/:/, '-')}`
-      }
-    }
-  }
-})
+        sanitizeFileName: (name) =>
+          `${name.replace("\x00", "vite-").replace(/:/, "-")}`,
+      },
+    },
+  },
+});

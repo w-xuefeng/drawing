@@ -17,26 +17,26 @@
 </template>
 
 <script lang="ts">
-import { onMounted, reactive, defineComponent } from 'vue'
-import bindkey from '@w-xuefeng/bindkey'
-import HistoryRecord from '../core/base/HistoryRecord'
+import { onMounted, reactive, defineComponent } from "vue";
+import { bindkey } from "@w-xuefeng/bindkey";
+import HistoryRecord from "../core/base/HistoryRecord";
 
-import Pencil from '../core/tools/Pencil'
-import Rubber from '../core/tools/Rubber'
-import Line from '../core/tools/Line'
-import Circle from '../core/tools/Circle'
-import Square from '../core/tools/Square'
-import Graffiti from '../core/tools/Graffiti'
-import DND from '../core/utils/DND'
+import Pencil from "../core/tools/Pencil";
+import Rubber from "../core/tools/Rubber";
+import Line from "../core/tools/Line";
+import Circle from "../core/tools/Circle";
+import Square from "../core/tools/Square";
+import Graffiti from "../core/tools/Graffiti";
+import DND from "../core/utils/DND";
 
-import BaseDrawTools from '../core/base/BaseDrawTools'
-import Tools from './Tools.vue'
-import RightBar from './RightBar.vue'
-import type { IDarwToolsBarState } from '../typing'
+import BaseDrawTools from "../core/base/BaseDrawTools";
+import Tools from "./Tools.vue";
+import RightBar from "./RightBar.vue";
+import type { IDarwToolsBarState } from "../typing";
 
 export default defineComponent({
-  name: 'ToolsBar',
-  emits: ['onStyleChange'],
+  name: "ToolsBar",
+  emits: ["onStyleChange"],
   props: {
     canvas: {
       type: HTMLCanvasElement,
@@ -56,90 +56,90 @@ export default defineComponent({
     const state = reactive<IDarwToolsBarState>({
       currentTools: null,
       tools: [],
-    })
+    });
 
     const bindKeyToTools = (tool: BaseDrawTools) => {
-      tool.key && bindkey.add(tool.key, () => onEnable(tool))
-      return tool
-    }
+      tool.key && bindkey.add(tool.key, () => onEnable(tool));
+      return tool;
+    };
 
     const onEnable = (currentTool: BaseDrawTools) => {
       state.tools
         .filter((tool) => currentTool !== tool)
-        .forEach((tool) => tool.disable())
-      state.currentTools = currentTool
-      state.currentTools.enable()
-      vueCTX.emit('onStyleChange', {
-        cursor: state.currentTools.cursor || 'auto',
-      })
-    }
+        .forEach((tool) => tool.disable());
+      state.currentTools = currentTool;
+      state.currentTools.enable();
+      vueCTX.emit("onStyleChange", {
+        cursor: state.currentTools.cursor || "auto",
+      });
+    };
 
     const initTools = () => {
       const pencil = new Pencil(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'B'
-      )
+        "B",
+      );
 
       const rubber = new Rubber(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'E'
-      )
+        "E",
+      );
 
       const line = new Line(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'L'
-      )
+        "L",
+      );
       const circle = new Circle(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'C'
-      )
+        "C",
+      );
 
       const square = new Square(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'S'
-      )
+        "S",
+      );
       const graffiti = new Graffiti(
         props.canvas,
         props.canvasBackup,
         props.historyRecord,
-        'G'
-      )
+        "G",
+      );
 
-      new DND(props.canvas, props.canvasBackup, props.historyRecord)
+      new DND(props.canvas, props.canvasBackup, props.historyRecord);
 
-      const tools = [pencil, rubber, line, circle, square, graffiti]
+      const tools = [pencil, rubber, line, circle, square, graffiti];
 
-      return tools.map(bindKeyToTools)
-    }
+      return tools.map(bindKeyToTools);
+    };
 
     const initFunctionShortKey = () => {
-      bindkey.add('Ctrl+L', () => state.currentTools?.clearContext(true, true))
-      bindkey.add('Ctrl+Z', () => state.currentTools?.undo())
-      bindkey.add('Ctrl+Y', () => state.currentTools?.redo())
-    }
+      bindkey.add("Ctrl+L", () => state.currentTools?.clearContext(true, true));
+      bindkey.add("Ctrl+Z", () => state.currentTools?.undo());
+      bindkey.add("Ctrl+Y", () => state.currentTools?.redo());
+    };
 
     const init = () => {
-      state.tools = initTools()
-      initFunctionShortKey()
-      onEnable(state.tools[0])
-      state.currentTools?.clearContext(true, true, '初始化画板')
-    }
+      state.tools = initTools();
+      initFunctionShortKey();
+      onEnable(state.tools[0]!);
+      state.currentTools?.clearContext(true, true, "初始化画板");
+    };
 
-    onMounted(init)
+    onMounted(init);
 
-    return { state, onEnable }
+    return { state, onEnable };
   },
-})
+});
 </script>
 
 <style scoped>

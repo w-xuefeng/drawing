@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import bindkey from '@w-xuefeng/bindkey'
-import { defineComponent, reactive } from 'vue'
-import FunctionIcon from './FunctionIcon.vue'
+import { bindkey } from "@w-xuefeng/bindkey";
+import { defineComponent, reactive } from "vue";
+import FunctionIcon from "./FunctionIcon.vue";
 
 export default defineComponent({
-  name: 'Output',
+  name: "Output",
   components: { FunctionIcon },
   props: {
     currentTools: {
@@ -47,28 +47,28 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const tools = reactive({ name: '导出', key: 'Ctrl+O' })
+    const tools = reactive({ name: "导出", key: "Ctrl+O" });
     const outputList = reactive([
       {
-        format: '导出 JPEG',
-        key: 'Ctrl+Shift+S',
-        onClick: () => props.currentTools.output('jpeg'),
+        format: "导出 JPEG",
+        key: "Ctrl+Shift+S",
+        onClick: () => props.currentTools.output("jpeg"),
       },
       {
-        format: '导出 PNG',
-        key: 'Ctrl+Shift+D',
-        onClick: () => props.currentTools.output('png'),
+        format: "导出 PNG",
+        key: "Ctrl+Shift+D",
+        onClick: () => props.currentTools.output("png"),
       },
       {
-        format: '导出 WebP',
-        key: 'Ctrl+Shift+X',
-        onClick: () => props.currentTools.output('webp'),
+        format: "导出 WebP",
+        key: "Ctrl+Shift+X",
+        onClick: () => props.currentTools.output("webp"),
       },
-    ])
-    outputList.forEach((item) => bindkey.add(item.key, item.onClick))
-    return { tools, outputList }
+    ]);
+    outputList.forEach((item) => bindkey.add(item.key, item.onClick));
+    return { tools, outputList };
   },
-})
+});
 </script>
 
 <style scoped>

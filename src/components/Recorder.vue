@@ -73,14 +73,22 @@
               @click="startScreenRecorder(startEvent, endEvent)"
               v-show="!recording"
             >
-              <span class="recorder-item-text">{{ screenRecordOptions.startText }}</span>
-              <span class="recorder-item-tips">{{ screenRecordOptions.startKey }}</span>
+              <span class="recorder-item-text">{{
+                screenRecordOptions.startText
+              }}</span>
+              <span class="recorder-item-tips">{{
+                screenRecordOptions.startKey
+              }}</span>
             </div>
           </template>
           <template v-slot:end="{ endEvent }">
             <div class="recorder-item" @click="endEvent" v-show="recording">
-              <span class="recorder-item-text">{{ screenRecordOptions.endText }}</span>
-              <span class="recorder-item-tips">{{ screenRecordOptions.endKey }}</span>
+              <span class="recorder-item-text">{{
+                screenRecordOptions.endText
+              }}</span>
+              <span class="recorder-item-tips">{{
+                screenRecordOptions.endKey
+              }}</span>
             </div>
           </template>
         </ScreenRecorderVue>
@@ -90,34 +98,34 @@
 </template>
 
 <script lang="ts">
-import bindkey from '@w-xuefeng/bindkey'
-import ScreenRecorderVue from 'screen-recorder-vue';
-import { ref, defineComponent, computed, reactive } from 'vue'
-import FunctionIcon from './FunctionIcon.vue'
-import Record from '../core/utils/Record'
+import { bindkey } from "@w-xuefeng/bindkey";
+import ScreenRecorderVue from "screen-recorder-vue";
+import { ref, defineComponent, computed, reactive } from "vue";
+import FunctionIcon from "./FunctionIcon.vue";
+import Record from "../core/utils/Record";
 
 const toolsOptions = {
-  startKey: 'R',
-  startText: '录制',
-  endKey: 'Alt+E',
-  endText: '停止',
-}
+  startKey: "R",
+  startText: "录制",
+  endKey: "Alt+E",
+  endText: "停止",
+};
 
 const videoOptions: MediaTrackConstraints = {
   width: 1920,
   height: 1080,
-  frameRate: 60
-}
+  frameRate: 60,
+};
 
 const screenRecordOptions = {
-  startText: '开始录制（录制屏幕）',
-  endText: '结束录制（结束录屏）',
-  startKey: 'Alt+Shift+D',
-  endKey: 'ESC'
-}
+  startText: "开始录制（录制屏幕）",
+  endText: "结束录制（结束录屏）",
+  startKey: "Alt+Shift+D",
+  endKey: "ESC",
+};
 
 export default defineComponent({
-  name: 'Recorder',
+  name: "Recorder",
   components: { FunctionIcon, ScreenRecorderVue },
   props: {
     canvas: {
@@ -134,98 +142,101 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const functionIconRef = ref()
-    const recording = ref(false)
-    const record = new Record(props.canvas, props.canvasBackup)
+    const functionIconRef = ref();
+    const recording = ref(false);
+    const record = new Record(props.canvas, props.canvasBackup);
 
     const state = reactive({
-      backupToogleShow: () => { },
-    })
+      backupToogleShow: () => {},
+    });
 
     record.onRecordStart = () => {
-      recording.value = true
-    }
+      recording.value = true;
+    };
 
     record.onRecordEnd = (url, urlBackup) => {
-      recording.value = false
+      recording.value = false;
       if (functionIconRef.value) {
-        functionIconRef.value.toggleShow = state.backupToogleShow
-        bindkey.remove(toolsOptions.startKey)
-        bindkey.add(toolsOptions.startKey, state.backupToogleShow)
+        functionIconRef.value.toggleShow = state.backupToogleShow;
+        bindkey.remove(toolsOptions.startKey);
+        bindkey.add(toolsOptions.startKey, state.backupToogleShow);
       }
-      const enUrl = encodeURIComponent(url)
-      const enUrlBackup = encodeURIComponent(urlBackup)
-      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
-      window.open(playerPage)
-    }
+      const enUrl = encodeURIComponent(url);
+      const enUrlBackup = encodeURIComponent(urlBackup);
+      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`;
+      window.open(playerPage);
+    };
 
-    const startScreenRecorder = (startEvent: Function, endEvent: Function) => {
+    const startScreenRecorder = (
+      startEvent: Function,
+      endEvent: (event: KeyboardEvent) => void,
+    ) => {
       if (functionIconRef.value) {
-        state.backupToogleShow = functionIconRef.value.toggleShow
-        functionIconRef.value.forceClosePanel()
-        functionIconRef.value.toggleShow = endEvent
-        bindkey.remove(toolsOptions.startKey)
+        state.backupToogleShow = functionIconRef.value.toggleShow;
+        functionIconRef.value.forceClosePanel();
+        functionIconRef.value.toggleShow = endEvent;
+        bindkey.remove(toolsOptions.startKey);
       }
-      bindkey.remove(toolsOptions.endKey)
-      bindkey.add(toolsOptions.endKey, endEvent)
-      recording.value = true
-      startEvent()
-    }
+      bindkey.remove(toolsOptions.endKey);
+      bindkey.add(toolsOptions.endKey, endEvent);
+      recording.value = true;
+      startEvent();
+    };
 
     const clickToStopRecord = () => {
-      recording.value && record.endRecord()
-    }
+      recording.value && record.endRecord();
+    };
 
     const clickTostartRecord = (isWhite = false) => {
-      record.startRecord(isWhite)
+      record.startRecord(isWhite);
       if (functionIconRef.value) {
-        state.backupToogleShow = functionIconRef.value.toggleShow
-        functionIconRef.value.forceClosePanel()
-        functionIconRef.value.toggleShow = clickToStopRecord
-        bindkey.remove(toolsOptions.startKey)
+        state.backupToogleShow = functionIconRef.value.toggleShow;
+        functionIconRef.value.forceClosePanel();
+        functionIconRef.value.toggleShow = clickToStopRecord;
+        bindkey.remove(toolsOptions.startKey);
       }
-    }
+    };
 
     const onScreenRecorderEnd = (url: string) => {
-      recording.value = false
+      recording.value = false;
       if (functionIconRef.value) {
-        functionIconRef.value.toggleShow = state.backupToogleShow
-        bindkey.remove(toolsOptions.startKey)
-        bindkey.add(toolsOptions.startKey, state.backupToogleShow)
+        functionIconRef.value.toggleShow = state.backupToogleShow;
+        bindkey.remove(toolsOptions.startKey);
+        bindkey.add(toolsOptions.startKey, state.backupToogleShow);
       }
-      bindkey.remove(toolsOptions.endKey)
-      bindkey.add(toolsOptions.endKey, clickToStopRecord)
-      const enUrl = encodeURIComponent(url)
-      const enUrlBackup = encodeURIComponent(url)
-      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`
-      window.open(playerPage)
-    }
+      bindkey.remove(toolsOptions.endKey);
+      bindkey.add(toolsOptions.endKey, clickToStopRecord);
+      const enUrl = encodeURIComponent(url);
+      const enUrlBackup = encodeURIComponent(url);
+      const playerPage = `./player.html?url=${enUrl}&urlBackup=${enUrlBackup}`;
+      window.open(playerPage);
+    };
 
     const tools = computed(() => ({
       name: recording.value ? toolsOptions.endText : toolsOptions.startText,
       key: recording.value ? toolsOptions.endKey : toolsOptions.startKey,
       noPanel: recording.value,
       cb: clickToStopRecord,
-    }))
+    }));
 
     const menuList = computed(() => [
       {
-        format: recording.value ? '正在录制中...' : '开始录制（白色背景）',
-        key: 'Alt+Shift+W',
+        format: recording.value ? "正在录制中..." : "开始录制（白色背景）",
+        key: "Alt+Shift+W",
         onClick: () => clickTostartRecord(true),
         disabled: recording.value,
       },
       {
-        format: recording.value ? '正在录制中...' : '开始录制（透明背景）',
-        key: 'Alt+Shift+R',
+        format: recording.value ? "正在录制中..." : "开始录制（透明背景）",
+        key: "Alt+Shift+R",
         onClick: () => clickTostartRecord(),
         disabled: recording.value,
       },
-    ])
+    ]);
 
-    bindkey.add(toolsOptions.endKey, clickToStopRecord)
+    bindkey.add(toolsOptions.endKey, clickToStopRecord);
 
-    menuList.value.forEach((item) => bindkey.add(item.key, item.onClick))
+    menuList.value.forEach((item) => bindkey.add(item.key, item.onClick));
 
     return {
       tools,
@@ -235,10 +246,10 @@ export default defineComponent({
       videoOptions,
       screenRecordOptions,
       onScreenRecorderEnd,
-      startScreenRecorder
-    }
+      startScreenRecorder,
+    };
   },
-})
+});
 </script>
 
 <style scoped>
