@@ -8,7 +8,7 @@
   "dependencies": {
     "@w-xuefeng/bindkey": "^1.0.3",
     "@w-xuefeng/fix-webm-metainfo": "^1.0.8",
-    "screen-recorder-vue": "^0.0.12",
+    "screen-recorder-vue": "^0.0.13",
     "vue": "^3.5.27"
   },
   "devDependencies": {

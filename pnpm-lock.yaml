@@ -15,8 +15,8 @@ importers:
         specifier: ^1.0.8
         version: 1.0.8
       screen-recorder-vue:
-        specifier: ^0.0.12
-        version: 0.0.12(typescript@5.9.3)
+        specifier: ^0.0.13
+        version: 0.0.13(typescript@5.9.3)
       vue:
         specifier: ^3.5.27
         version: 3.5.27(typescript@5.9.3)
@@ -597,11 +597,11 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  screen-recorder-base@0.0.11:
-    resolution: {integrity: sha512-OqZmnuIs5thABFk2yTnB5ieum+z40Kvs8JDPZS1e3l0By0C7Wm6TLLiJDjUe7Tgf2a37lbMZLmQ63UgslvwZ/g==}
+  screen-recorder-base@0.0.12:
+    resolution: {integrity: sha512-/1/RAXGreJk5j20wg+7bJ8bAzyuTHJv5MPkunTxoZa6IgF+qnYM14uJNvTn6/bDfEJRofLYCqsCkhkj9lqCWPg==}
 
-  screen-recorder-vue@0.0.12:
-    resolution: {integrity: sha512-CRJ3P1G9VYMC8/V3O4KEDAM+JBloi3v8bPK9nAJWwda5y0yO8scWKq2O14BokIYqh04E9sA3XDJjUi40R4oeLQ==}
+  screen-recorder-vue@0.0.13:
+    resolution: {integrity: sha512-QHHNuV+9qTjLqkUz9otfo/gn+Y+ADx/CGKKzNLdimeKjLhUzLq8hzR8Bf0OultD4q4EuHOd7LZ6zCD8577h8ag==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -1142,7 +1142,7 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.56.0
       fsevents: 2.3.3
 
-  screen-recorder-base@0.0.11:
+  screen-recorder-base@0.0.12:
     dependencies:
       '@types/recordrtc': 5.6.15
       '@w-xuefeng/fix-webm-metainfo': 1.0.8
@@ -1150,11 +1150,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  screen-recorder-vue@0.0.12(typescript@5.9.3):
+  screen-recorder-vue@0.0.13(typescript@5.9.3):
     dependencies:
       '@vueuse/core': 14.1.0(vue@3.5.27(typescript@5.9.3))
       '@w-xuefeng/bindkey': 1.0.3
-      screen-recorder-base: 0.0.11
+      screen-recorder-base: 0.0.12
       vue: 3.5.27(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color
