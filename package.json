@@ -9,16 +9,16 @@
     "@w-xuefeng/bindkey": "^1.0.3",
     "@w-xuefeng/fix-webm-metainfo": "^1.0.8",
     "screen-recorder-vue": "^0.0.13",
-    "vue": "^3.5.27"
+    "vue": "^3.5.39"
   },
   "devDependencies": {
-    "@types/node": "^25.0.10",
+    "@types/node": "^26.1.1",
     "@types/recordrtc": "^5.6.15",
-    "@vitejs/plugin-vue": "^6.0.3",
-    "@vue/compiler-sfc": "^3.5.27",
-    "@vue/tsconfig": "^0.8.1",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/compiler-sfc": "^3.5.39",
+    "@vue/tsconfig": "^0.9.1",
     "typescript": "^5.9.3",
-    "vite": "^7.3.2",
-    "vue-tsc": "^3.2.3"
+    "vite": "^8.1.4",
+    "vue-tsc": "^3.3.7"
   }
 }
